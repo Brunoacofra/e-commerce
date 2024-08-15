@@ -18,5 +18,26 @@
 			<input type="password" name="senhaUsuario">
 			<button name="cad" type="submit">Enviar</button>
 		</form>
+		<h4>Lista de Usuarios</h4>
+		<table>
+			<thead>
+				<tr>
+					<td>Codigo</td>
+					<td>Nome</td>
+					<td>Email</td>
+					<td>senha</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for usuario in usuarios %}
+				<tr>
+					<td>{{ usuario.codigo}}</td>
+					<td>{{ usuario.nome}}</td>
+					<td>{{ usuario.email}}</td>
+					<td>{{ usuario.senha}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</body>
 </html>

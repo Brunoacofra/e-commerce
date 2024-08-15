@@ -4,7 +4,8 @@ USE ecommerce;
 CREATE TABLE usuario (
  usu_id INT AUTO_INCREMENT PRIMARY KEY,
  usu_username VARCHAR(100) NOT NULL ,
- usu_password VARCHAR(100) NOT NULL
+ usu_password VARCHAR(100) NOT NULL,
+ usu_email VARCHAR(100) NOT NULL
 );
 -- Tabela de Categorias
 CREATE TABLE categoria (
