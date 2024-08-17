@@ -18,52 +18,70 @@ class Usuario(db.Model):
         self.user = user
         self.senha = senha
 
-class categoria(db.Model):
-	id = db.Column('cat_codigo', db.Integer, primary_key=True)
-	nome = db.Column('cat_nome'),db.String(200)
+class Categoria(db.Model):
+    id = db.Column('cat_codigo', db.Integer, primary_key=True)
+    nome = db.Column('cat_nome', db.String(200))
 
-	def __init__(self,nome):
-		self.nome = nome
+    def __init__(self, nome):
+        self.nome = nome
+
+class Anuncio(db.Model):
+    __tablename__ = "anuncio"
+    id = db.Column('ads_id', db.Integer, primary_key=True)
+    nome = db.Column('ads_titulo', db.String(256))
+    desc = db.Column('ads_descricao', db.String(256))
+    qtd = db.Column('ads_qtd', db.Integer)
+    preco = db.Column('ads_preco', db.Float)
+    cat_id = db.Column('ads_cat_id', db.Integer, db.ForeignKey("categoria.cat_codigo"))
+    usu_id = db.Column('ads_usu_id', db.Integer, db.ForeignKey("usuario.usu_codigo"))
+
+    def __init__(self, nome, desc, qtd, preco, cat_id, usu_id):
+        self.nome = nome
+        self.desc = desc
+        self.qtd = qtd
+        self.preco = preco
+        self.cat_id = cat_id
+        self.usu_id = usu_id
+
+@app.errorhandler(404)
+def paginanaoencontrada(error):
+    return render_template('png404.html')
+
 @app.route("/")
 def index():
     return render_template('index.html')
 
-@app.route('/cadastro/usuario')
-def usuario():
-    return render_template('cadastroUsuario.html', usuarios = Usuario.query.all(), titulo="Cadastro de usuarios")
+@app.route("/usuarios")
+def listar_usuarios():
+    return render_template('usuarios.html', usuarios=Usuario.query.all(), titulo="Usuários")
 
-@app.route('/cadastro/anuncio')
-def ads():
-    return render_template('ads.html')
+@app.route("/usuario/detalhar/<int:id>")
+def buscar_usuario(id):
+    usuario = Usuario.query.get(id)
+    return usuario.user
 
-@app.route('/ads/pergunta')
-def pergunta():
-    return render_template('perguntas.html')
+@app.route("/usuario/editar/<int:id>", methods=['GET', 'POST'])
+def editar_usuario(id):
+    usuario = Usuario.query.get(id)
+    if request.method == 'POST':
+        usuario.user = request.form.get('user')
+        usuario.email = request.form.get('email')
+        usuario.senha = request.form.get('senha')
+        db.session.add(usuario)
+        db.session.commit()
+        return redirect(url_for('listar_usuarios'))
 
-@app.route('/ads/compra')
-def compra():
-    print('Anuncio de compra')
-    return ''
+    return render_template('editar_usuario.html', usuario=usuario, titulo="Editar Usuário")
 
-@app.route('/ads/favoritos')
-def favoritos():
-    print('Inserido aos favoritos')
-    return ''
+@app.route("/usuario/deletar/<int:id>")
+def deletar_usuario(id):
+    usuario = Usuario.query.get(id)
+    db.session.delete(usuario)
+    db.session.commit()
+    return redirect(url_for('listar_usuarios'))
 
-@app.route('/config/categoria')
-def categoria():
-    return render_template('cadastroCategoria.html')
-
-@app.route('/relatorio/venda')
-def relatorioCompra():
-    return render_template('relatorioCompra.html')
-
-@app.route('/relatorio/compra')
-def relatorioVenda():
-    return render_template('relatorioVenda.html')
-
-@app.route("/cadastro/cadastroUsuario", methods=['POST'])
-def cad():
+@app.route('/cadastro/usuario', methods=['POST'])
+def cadastrar_usuario():
     usuario = Usuario(
         request.form.get('user'),
         request.form.get('email'),
@@ -71,13 +89,59 @@ def cad():
     )
     db.session.add(usuario)
     db.session.commit()
-    return redirect(url_for('usuario'))
-@app.route("cadastro/cadastroCategoria",methods=['POST'])
-	def cadcat():
-		categoria = categoria(request.form.get('cat'))
-		deb.session.add(categoria)
-		db.session.commit()
-		return redirect(url_for('categoria'))
+    return redirect(url_for('listar_usuarios'))
+
+@app.route('/cadastro/anuncio')
+def cadastrar_anuncio():
+    return render_template('cadastro_anuncio.html')
+
+@app.route("/anuncio/novo", methods=['POST'])
+def novo_anuncio():
+    anuncio = Anuncio(
+        request.form.get('nome'),
+        request.form.get('desc'),
+        request.form.get('qtd'),
+        request.form.get('preco'),
+        request.form.get('cat'),
+        request.form.get('usu')
+    )
+    db.session.add(anuncio)
+    db.session.commit()
+    return redirect(url_for('cadastrar_anuncio'))
+
+@app.route('/perguntas')
+def perguntas():
+    return render_template('perguntas.html')
+
+@app.route('/compra')
+def compra():
+    print('Anúncio de compra')
+    return ''
+
+@app.route('/favoritos')
+def favoritos():
+    print('Inserido aos favoritos')
+    return ''
+
+@app.route('/cadastro/categoria')
+def cadastro_categoria():
+    return render_template('cadastro_categoria.html', categorias=Categoria.query.all(), titulo='Categorias')
+
+@app.route('/categoria/novo', methods=['POST'])
+def cadastrar_categoria():
+    categoria = Categoria(request.form.get('cat'))
+    db.session.add(categoria)
+    db.session.commit()
+    return redirect(url_for('cadastro_categoria'))
+
+@app.route('/relatorio/venda')
+def relatorio_venda():
+    return render_template('relatorio_venda.html')
+
+@app.route('/relatorio/compra')
+def relatorio_compra():
+    return render_template('relatorio_compra.html')
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
