@@ -14,13 +14,11 @@ CREATE TABLE categoria (
 );
 -- Tabela de Anúncios
 CREATE TABLE ads (
-FRAMEWORKS PARA DESENVOLVIMENTO
-DE SOFTWARE
-| 4º termo
  ads_id INT AUTO_INCREMENT PRIMARY KEY,
  ads_titulo VARCHAR(100) NOT NULL,
  ads_descricao TEXT NOT NULL,
  ads_preco DECIMAL(10, 2) NOT NULL,
+ ads_qtd INT NOT NULL,
  ads_cat_id INT NOT NULL,
  ads_usu_id INT NOT NULL,
  FOREIGN KEY (ads_cat_id) REFERENCES categoria(cat_id),
