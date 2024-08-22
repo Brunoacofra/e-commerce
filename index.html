@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initialscale=1">
-	<title>Compra & Click </title>
-	</head>
-	<body>
-		<h1>Bem vindo ao compra&Click</h1>
-		<p><a href={{url_for("usuario")}}>Cadastro de usuarios</a></p>
-		<p><a href={{url_for("ads")}}>Cadastro de anuncios</a></p>
-		<p><a href={{url_for("pergunta")}}>Perguntas</a></p>
-		<p><a href={{url_for("compra")}}>Anuncio de Compra</a></p>
-		<p><a href={{url_for("favoritos")}}>Favoritos</a></p>
-		<p><a href={{url_for("categoria")}}>Cadastro de categorias</a></p>
-		<p><a href={{url_for("relatorioVenda")}}>Relatorio de Venda</a></p>
-		<p><a href={{url_for("relatorioCompra")}}>Relatorio de Compra</a></p>
-	</body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compra & Click</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .custom-red {
+            color: #c62828; 
+        }
+        .custom-red-bg {
+            background-color: #c62828;
+            color: white;
+        }
+        .custom-purple {
+            color: #6a1b9a; 
+        }
+        .custom-purple-bg {
+            background-color: #6a1b9a; 
+            color: white; 
+        }
+        .navbar-custom {
+            background-color: #6a1b9a; 
+            color: white;
+        }
+        .navbar-custom a {
+            color: white;
+        }
+        .navbar-custom a:hover {
+            color: #c62828; 
+        }
+        .container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1 class="custom-red">Bem-vindo ao Compra & Click</h1>
+        <p><a href="{{url_for('usuario')}}" class="btn btn-custom">Cadastro de usuários</a></p>
+        <p><a href="{{url_for('ads')}}" class="btn btn-custom">Cadastro de anúncios</a></p>
+        <p><a href="{{url_for('pergunta')}}" class="btn btn-custom">Perguntas</a></p>
+        <p><a href="{{url_for('compra')}}" class="btn btn-custom">Anúncio de Compra</a></p>
+        <p><a href="{{url_for('favoritos')}}" class="btn btn-custom">Favoritos</a></p>
+        <p><a href="{{url_for('categoria')}}" class="btn btn-custom">Cadastro de categorias</a></p>
+        <p><a href="{{url_for('relatorioVenda')}}" class="btn btn-custom">Relatório de Venda</a></p>
+        <p><a href="{{url_for('relatorioCompra')}}" class="btn btn-custom">Relatório de Compra</a></p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
 </html>

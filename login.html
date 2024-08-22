@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Compra&Click {{titulo}}</title>
+    <title>CC - Compra&Click - Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
         .custom-red {
-            color: #c62828; 
+            color: #c62828;
         }
         .custom-red-bg {
             background-color: #c62828; 
@@ -20,11 +20,8 @@
             background-color: #6a1b9a; 
             color: white; 
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-control {
-            border-radius: 0;
+        .container {
+            margin-top: 50px;
         }
         .btn-custom {
             background-color: #6a1b9a;
@@ -38,17 +35,33 @@
 </head>
 <body>
     <div class="container">
-        <h3 class="custom-red">{{titulo}}</h3>
-        
-        <form action="cadastrocat" method="post" class="form-inline">
+        <h4 class="custom-purple">Login</h4>
+        <form action="/login" method="post" class="form-horizontal">
             <div class="form-group">
-                <label for="cat" class="custom-purple">Categoria:</label>
-                <input type="text" class="form-control" id="cat" name="cat" required>
+                <label for="email" class="col-sm-2 control-label custom-purple">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
             </div>
-            <button name="cad" type="submit" class="btn btn-custom">Enviar</button>
+
+            <div class="form-group">
+                <label for="passwd" class="col-sm-2 control-label custom-purple">Senha</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="passwd" name="passwd" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-custom">Logar</button>
+                </div>
+            </div>
         </form>
     </div>
+
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

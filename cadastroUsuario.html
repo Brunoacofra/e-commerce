@@ -1,45 +1,95 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initialscale=1">
-	<title>Compra&Click {{titulo}}</title>
-	</head>
-	<body>
-		<div>
-		<h3>{{titulo}}</h3>
-		</div>
-		<form action="cadastrouser" method="post">
-			<label>Nome: </label>
-			<input type="text" name="nomeUsuario">
-			<label>Email: </label>
-			<input type="Email" name="emailUsuario">
-			<label>Senha: </label>
-			<input type="password" name="senhaUsuario">
-			<button name="cad" type="submit">Enviar</button>
-		</form>
-		<h4>Lista de Usuarios</h4>
-		<table>
-			<thead>
-				<tr>
-					<td>Codigo</td>
-					<td>Nome</td>
-					<td>Email</td>
-					<td>senha</td>
-				</tr>
-			</thead>
-			<tbody>
-				{% for usuario in usuarios %}
-				<tr>
-					<td>{{ usuario.codigo}}</td>
-					<td>{{ usuario.nome}}</td>
-					<td>{{ usuario.email}}</td>
-					<td>{{ usuario.senha}}</td>
-					<td><a href={{ url_for("editarusuario",id=usuario.id) }}>Editar?</a></td>
-                    <td><a href={{ url_for("deletarusuario",id=usuario.id) }}>Deletar?</a></td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compra&Click {{titulo}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .custom-red {
+            color: #c62828;
+        }
+        .custom-red-bg {
+            background-color: #c62828;
+            color: white;
+        }
+        .custom-purple {
+            color: #6a1b9a;
+        }
+        .custom-purple-bg {
+            background-color: #6a1b9a;
+            color: white; 
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .table th {
+            background-color: #f4f4f4;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            border-radius: 0;
+        }
+        .btn-custom {
+            background-color: #6a1b9a;
+            color: white;
+            border-radius: 0;
+        }
+        .btn-custom:hover {
+            background-color: #4a0072;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 class="custom-red">{{titulo}}</h3>
+        
+        <form action="cadastrouser" method="post">
+            <div class="form-group">
+                <label for="nomeUsuario">Nome:</label>
+                <input type="text" class="form-control" id="nomeUsuario" name="nomeUsuario" required>
+            </div>
+            <div class="form-group">
+                <label for="emailUsuario">Email:</label>
+                <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
+            </div>
+            <div class="form-group">
+                <label for="senhaUsuario">Senha:</label>
+                <input type="password" class="form-control" id="senhaUsuario" name="senhaUsuario" required>
+            </div>
+            <button name="cad" type="submit" class="btn btn-custom">Enviar</button>
+        </form>
+
+        <h4 class="custom-purple">Lista de Usuários</h4>
+        <table class="table table-bordered">
+            <thead class="custom-purple-bg">
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Senha</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.codigo }}</td>
+                    <td>{{ usuario.nome }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>******</td>
+                    <td>
+                        <a href="{{ url_for('editarusuario', id=usuario.id) }}" class="btn btn-warning btn-xs">Editar</a>
+                        <a href="{{ url_for('deletarusuario', id=usuario.id) }}" class="btn btn-danger btn-xs">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
 </html>
