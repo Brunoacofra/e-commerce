@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CC - Comprar e vender - Cadastro de {{titulo}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .custom-red {
+            color: #c62828; 
+        }
+        .custom-red-bg {
+            background-color: #c62828; 
+            color: white; 
+        }
+        .custom-purple {
+            color: #6a1b9a; 
+        }
+        .custom-purple-bg {
+            background-color: #6a1b9a; 
+            color: white; 
+        }
+        /* Additional styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            border-radius: 0;
+        }
+        .btn-custom {
+            background-color: #6a1b9a;
+            color: white;
+            border-radius: 0;
+        }
+        .btn-custom:hover {
+            background-color: #4a0072;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .table th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4 class="custom-red">Cadastro de {{titulo}}</h4>
+        
+        <form action="/anuncio/novo" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="titulo" class="col-sm-2 control-label custom-purple">Título</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="titulo" name="nome">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="desc" class="col-sm-2 control-label custom-purple">Descrição</label>
+                <div class="col-sm-10">
+                    <textarea rows="4" class="form-control" id="desc" name="desc"></textarea>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="qtd" class="col-sm-2 control-label custom-purple">Quantidade</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="qtd" name="qtd">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="preco" class="col-sm-2 control-label custom-purple">Preço</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="preco" name="preco">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="cat" class="col-sm-2 control-label custom-purple">Categoria</label>
+                <div class="col-sm-10">
+                    <select id="cat" name="cat" class="form-control">
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="usu" class="col-sm-2 control-label custom-purple">Usuário</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="usu" name="usu">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-custom">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+        
+        <h4 class="custom-purple">Lista de {{titulo}}</h4>
+        <table class="table table-bordered">
+            <thead class="custom-purple-bg">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for anuncio in anuncios %}
+                <tr>
+                    <td>{{ anuncio.nome }}</td>
+                    <td>{{ anuncio.desc }}</td>
+                    <td>{{ anuncio.qtd }}</td>
+                    <td>{{ anuncio.preco }}</td>
+                    <td>{{ anuncio.cat_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
