@@ -1,11 +1,47 @@
-from flask import Flask, render_template, request, redirect, url_for
+from crypt import methods
+from flask import Flask, make_response
+from markupsafe import escape
+from flask import render_template
+from flask import request
 from flask_sqlalchemy import SQLAlchemy
+from flask import url_for
+from flask import redirect
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://testuser:toledo22@localhost:3306/mydb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+
+app.secret_key = 'legal'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+class Usuario(db.Model):
+    __tablename__ = "usuario"
+    id = db.Column('usu_id', db.Integer, primary_key=True)
+    nome = db.Column('usu_nome', db.String(256))
+    email = db.Column('usu_email', db.String(256))
+    senha = db.Column('usu_senha', db.String(256))
+
+    def __init__(self, nome, email, senha):
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 class Usuario(db.Model):
     id = db.Column('usu_codigo', db.Integer, primary_key=True)
@@ -47,8 +83,34 @@ class Anuncio(db.Model):
 def paginanaoencontrada(error):
     return render_template('png404.html')
 
+@login_manager.user_loader
+def load_user(id):
+    return Usuario.query.get(id)
+
+@app.route("/login", methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        passwd = hashlib.sha512(str(request.form.get('passwd')).encode("utf-8")).hexdigest()
+
+        user = Usuario.query.filter_by(email=email, senha=passwd).first()
+
+        if user:
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route("/")
+@login_required
 def index():
+    db.create_all()
     return render_template('index.html')
 
 @app.route("/usuarios")
@@ -142,6 +204,6 @@ def relatorio_venda():
 def relatorio_compra():
     return render_template('relatorio_compra.html')
 
-if __name__ == "__main__":
+if __name__ == "app":
     db.create_all()
     app.run(debug=True)
