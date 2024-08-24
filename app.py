@@ -119,11 +119,13 @@ def listar_usuarios():
 
 @app.route("/usuario/detalhar/<int:id>")
 def buscar_usuario(id):
+    @login_required
     usuario = Usuario.query.get(id)
     return usuario.user
 
 @app.route("/usuario/editar/<int:id>", methods=['GET', 'POST'])
 def editar_usuario(id):
+    @login_required
     usuario = Usuario.query.get(id)
     if request.method == 'POST':
         usuario.user = request.form.get('user')
@@ -137,6 +139,7 @@ def editar_usuario(id):
 
 @app.route("/usuario/deletar/<int:id>")
 def deletar_usuario(id):
+    @login_required
     usuario = Usuario.query.get(id)
     db.session.delete(usuario)
     db.session.commit()
@@ -155,10 +158,12 @@ def cadastrar_usuario():
 
 @app.route('/cadastro/anuncio')
 def cadastrar_anuncio():
+    @login_required
     return render_template('cadastro_anuncio.html')
 
 @app.route("/anuncio/novo", methods=['POST'])
 def novo_anuncio():
+    @login_required
     anuncio = Anuncio(
         request.form.get('nome'),
         request.form.get('desc'),
@@ -173,6 +178,7 @@ def novo_anuncio():
 
 @app.route('/perguntas')
 def perguntas():
+    @login_required
     return render_template('perguntas.html')
 
 @app.route('/compra')
@@ -191,6 +197,7 @@ def cadastro_categoria():
 
 @app.route('/categoria/novo', methods=['POST'])
 def cadastrar_categoria():
+    @login_required
     categoria = Categoria(request.form.get('cat'))
     db.session.add(categoria)
     db.session.commit()
